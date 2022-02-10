@@ -60,8 +60,8 @@
       const modelurl = "./models/border.glb";
       const modelurl2 = "./models/dots.glb";
      // const modelurl5 = "./models/shield.glb";
-      const modelurl6 = "./models/sphere.glb";
-      const line4  = "./models/line4.glb";
+     // const modelurl6 = "./models/sphere.glb";
+      const line4 =  "./models/line4.glb";
       const line5 =  "./models/line5.glb";
       const line6 =  "./models/line6.glb";
       //const circule1 = "./models/circule1.glb";
@@ -185,12 +185,22 @@
 
           loadModel(modelurl2).then((model)=>{
               pivot.add(model)
-                model.position.y = fixY; 
-                model.traverse((node) => {
-                    if (node.isMesh){
-                        node.material = material;
-                    }
-                });
+              console.log(model);
+                model.position.y = fixY;
+                material = new THREE.MeshStandardMaterial( {color: 0x00ff00, side: THREE.DoubleSide} );
+                model.children[0].material = material;
+                material = new THREE.MeshStandardMaterial( {color: 0x00ff00, side: THREE.DoubleSide} );
+                model.children[1].material = material;
+                material = new THREE.MeshStandardMaterial( {color: 0x00ff00, side: THREE.DoubleSide} );
+                model.children[2].material = material;
+                material = new THREE.MeshStandardMaterial( {color: 0x00b3ff, side: THREE.DoubleSide} );
+                model.children[3].material = material;
+                //model.traverse((node) => {
+                //    if (node.isMesh){
+                //      //console.log(node);
+                //        node.material = material;
+                //    }
+                //});
           });
 
           loadModel(line4).then((model)=>{
@@ -204,7 +214,7 @@
               linePivot.position.y = 0; 
               linePivot.rotation.z = Math.PI/4;
               linePivot.rotation.y = -0.22;
-              scene.add(linePivot)
+              //scene.add(linePivot)
               line1 = model;
               line1.rotation.x = Math.PI /4;
           });
@@ -221,20 +231,22 @@
               linePivot.position.x = -2; 
               linePivot.rotation.z = -Math.PI/4;
               linePivot.rotation.y = -0.22;
-              scene.add(linePivot)
+              //scene.add(linePivot)
               line2 = model;
               line2.rotation.x = Math.PI /2;
           });
 
           loadModel(line6).then((model)=>{
+              const axesHelper = new THREE.AxesHelper( 5 );
               model.traverse((node) => {
                   if (node.isMesh){
                       node.material = material;
                   }
               });
               let linePivot = new THREE.Object3D();
+              linePivot.add(axesHelper);
               linePivot.add(model);
-              linePivot.position.y = 5; 
+              linePivot.position.y = 5;
               linePivot.rotation.y = -0.22;
               linePivot.scale.set(0.9,1,1);
               scene.add(linePivot)
@@ -536,7 +548,7 @@
                     })(i);
                 }
             }).start()
-
+  
             //new TWEEN.Tween(shield2Pivot.rotation)
             //.onUpdate(function(){
             //    shield2.lookAt(camera.position)
