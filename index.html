@@ -173,7 +173,6 @@
           });
 
           loadModel(modelurl2).then((model)=>{
-            console.log(model);
             pivot.add(model);
             model.position.y = fixY;
             model.traverse((node) => {
@@ -328,11 +327,28 @@
               z: camera.position.z
             }
 
+            // get the current camera position
+            const start = new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
+
+            // move camera to the target
+            const point = sphere(modelDots.children[2]).center;
+            const camDistance = camera.position.length() / 3;
+            camera.position.copy(point).normalize().multiplyScalar(camDistance);
+
+            // save the camera position
+            const end =  new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
+
+            // invert back to original position
+            camera.position.copy(start).normalize().multiplyScalar(camDistance);
+
+            camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
+
             new TWEEN.Tween(cameraFrom)
-            .to({ z: 40, x: 0, y: 0 }, 1500)
+            .to(end, 2000)
             .onUpdate(function(){
                camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-            }).onComplete(function() {             
+               camera.lookAt(point);
+            }).onComplete(function() {            
                 modelDots.children[2].material = materialGreen;
             }).start()
 
@@ -372,24 +388,37 @@
               z: camera.position.z
         };
 
+            // get the current camera position
+            const start = new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
+
+            // move camera to the target
+            const point = sphere(modelDots.children[1]).center;
+            const camDistance = camera.position.length() / 2.5;
+            camera.position.copy(point).normalize().multiplyScalar(camDistance);
+
+            // save the camera position
+            const end =  new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
+
+            // invert back to original position
+            camera.position.copy(start).normalize().multiplyScalar(camDistance);
+
+            camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
+
+
         //new TWEEN.Tween( camera.rotation ).to({ x: 0, y: -0.2, z: 0}, 500)
-        //.onComplete(function() {
-            new TWEEN.Tween(cameraFrom)
-            .to({ z: 40, x: 0, y: 0 }, 2000)
-            //.delay(500)
+       // .onComplete(function() {
+            new TWEEN.Tween(cameraFrom).to(end, 2000)
+            //.to({ z: 40, x: 0, y: 0 }, 2000)
             .easing(TWEEN.Easing.Cubic.Out)
             .onUpdate(function(){
                 camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-                //camera.lookAt(new THREE.Vector3(14, 0, 0.5))
-               // camera.lookAt(new THREE.Vector3(scene.position.x, scene.position.y, scene.position.z));
+                camera.lookAt(point);
             }).onComplete(function() {
               modelDots.children[1].material = materialGreen;
             }).start();
 
         //})
         //.start();
-
-        //cameraSetup({ x: -0.2347317536273475, y: 0.07404189755525604, z : 0.017688367787720344},1000)
       }
 
       const step6 = ()=>{
@@ -419,7 +448,36 @@
 
           clearTasks();
 
-          new TWEEN.Tween(camera.position).to({ z: 40, x: 0, y: 0 }, 900)
+          let cameraFrom = {
+              x: camera.position.x,
+              y: camera.position.y,
+              z: camera.position.z
+          }
+
+            // get the current camera position
+            const start = new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
+
+            // move camera to the target
+            const point = sphere(modelDots.children[0]).center;
+            const camDistance = camera.position.length();
+            camera.position.copy(point).normalize().multiplyScalar(camDistance / 3);
+
+            // save the camera position
+            const end =  new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
+
+            // invert back to original position
+            camera.position.copy(start).normalize().multiplyScalar(camDistance);
+
+            camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
+
+
+          new TWEEN.Tween(cameraFrom).to(end, 2000)
+          //.to({ z: 40, x: 0, y: 0 }, 900)
+          .easing(TWEEN.Easing.Cubic.Out)
+          .onUpdate(function(){
+            camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
+            camera.lookAt(point);
+          })
           .onComplete(function() {
             modelDots.children[0].material = materialGreen;
           }).start();
@@ -585,7 +643,15 @@
 
         }
 
-        
+      function sphere(object) {
+        let sphere;
+        object.updateMatrixWorld();
+        object.geometry.computeBoundingSphere();
+        sphere = object.geometry.boundingSphere.clone();
+        sphere.applyMatrix4(object.matrixWorld);
+        return sphere;
+      }
+
       function onscroll() {
 
         let scrollTop = document.body.scrollTop;
