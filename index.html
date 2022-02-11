@@ -406,7 +406,7 @@
               z: camera.position.z
           }
 
-          new TWEEN.Tween(cameraFrom).to({ x: -30, y: 0, z: 80 }, 4000)
+          new TWEEN.Tween(cameraFrom).to({ x: -50, y: 0, z: 80 }, 4000)
           .easing(TWEEN.Easing.Cubic.Out)     
           .onUpdate(function () {
               camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
