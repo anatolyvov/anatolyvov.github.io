@@ -60,8 +60,7 @@
       const modelurl = "./models/border.glb";
       const modelurl2 = "./models/dots.glb";
 
-      const hulfLine1 = "./models/hulfLine1.glb";
-      const hulfLine2 = "./models/hulfLine2.glb";
+      const line = "./models/line6.glb";
 
       const loadModel = (url)=>{
           return new Promise((resolve, reject)=>{
@@ -124,7 +123,7 @@
         camera.position.z = 40;
         camera.position.y = 18;
       }else{
-        camera.position.z = 30;
+        camera.position.z = 40;
         camera.position.y = 10;
       }
 
@@ -135,7 +134,7 @@
       const renderScene = new THREE.RenderPass( scene, camera );
 
       const bloomPass = new  THREE.UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
-      bloomPass.threshold = 0;
+      bloomPass.threshold = 0.1;
       bloomPass.strength = 1.1;
       bloomPass.radius = 0;
 
@@ -185,13 +184,15 @@
             modelDots = model;
           });
 
-          loadModel(hulfLine1).then((model)=>{
+          loadModel(line).then((model)=>{
               model.traverse((node) => {
                   if (node.isMesh){
                       node.material = material;
                   }
               });
+              
               let modelc = model.clone();
+              modelc.scale.set(1.85, 1.85, 1.85);
 
               let linePivot = new THREE.Object3D();
               linePivot.add(modelc);
@@ -200,28 +201,23 @@
               scene.add(linePivot);
 
               modelc = model.clone();
+              modelc.scale.set(1.85, 1.85, 1.85);
               linePivot = new THREE.Object3D();
               linePivot.add(modelc);
               linePivot.rotation.z = -Math.PI / 4;
               line2 = modelc;
               scene.add(linePivot);
-          });
 
-          loadModel(hulfLine2).then((model)=>{
-              model.traverse((node) => {
-                  if (node.isMesh){
-                      node.material = material;
-                  }
-              });
-              let modelc = model.clone();
-
-              let linePivot = new THREE.Object3D();
+              modelc = model.clone();
+              modelc.scale.set(1.65, 1.65, 1.65);
+              linePivot = new THREE.Object3D();
               linePivot.add(modelc);
               linePivot.rotation.z = Math.PI / 2;
               line3 = modelc;
               scene.add(linePivot);
 
               modelc = model.clone();
+              modelc.scale.set(1.65, 1.65, 1.65);
               linePivot = new THREE.Object3D();
               linePivot.add(modelc);
               linePivot.position.y = 5;
@@ -229,11 +225,9 @@
               scene.add(linePivot);
           });
 
-          //let shieldPivotRotationZ = 0;
-
           const animate = ()=> {
               requestAnimationFrame( animate );
-              pivot.rotation.y += 0.01;
+              //pivot.rotation.y += 0.01;
 
               if(line1){
                 line1.rotation.y += 0.026;
