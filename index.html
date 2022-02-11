@@ -278,6 +278,8 @@
       const step1 = ()=>{
           console.log("step1");
 
+          clearTasks();
+
           let cameraFrom = {
               x: camera.position.x,
               y: camera.position.y,
@@ -415,6 +417,8 @@
         // europa
           console.log("step7 - europa");
 
+          clearTasks();
+
           new TWEEN.Tween(camera.position).to({ z: 40, x: 0, y: 0 }, 900)
           .onComplete(function() {
             modelDots.children[0].material = materialGreen;
@@ -444,6 +448,8 @@
 
       const step9 = ()=>{
         console.log("step9");
+
+        clearTasks();
 
         let cameraFrom = {
               x: camera.position.x,
