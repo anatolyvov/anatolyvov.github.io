@@ -91,6 +91,7 @@
       let lockShiled2 = isMobile;
       let lockShiled3 = isMobile;
       let lockLookShieled = false;
+      let rotationPivot = true;
 
       let scene = new THREE.Scene();
       const loader = new THREE.CubeTextureLoader();
@@ -134,7 +135,7 @@
       const renderScene = new THREE.RenderPass( scene, camera );
 
       const bloomPass = new  THREE.UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
-      bloomPass.threshold = 0.1;
+      bloomPass.threshold = 0;
       bloomPass.strength = 1.1;
       bloomPass.radius = 0;
 
@@ -208,7 +209,7 @@
               scene.add(linePivot);
 
               modelc = model.clone();
-              modelc.scale.set(1.65, 1.65, 1.65);
+              modelc.scale.set(1.25, 1.25, 1.25);
               linePivot = new THREE.Object3D();
               linePivot.add(modelc);
               linePivot.rotation.z = Math.PI / 2;
@@ -216,7 +217,7 @@
               scene.add(linePivot);
 
               modelc = model.clone();
-              modelc.scale.set(1.65, 1.65, 1.65);
+              modelc.scale.set(1.25, 1.25, 1.25);
               linePivot = new THREE.Object3D();
               linePivot.add(modelc);
               linePivot.position.y = 5;
@@ -226,7 +227,9 @@
 
           const animate = ()=> {
               requestAnimationFrame( animate );
-              //pivot.rotation.y += 0.01;
+              if(rotationPivot) {
+                pivot.rotation.y += 0.01;
+              }
 
               if(line1){
                 line1.rotation.y += 0.026;
@@ -294,7 +297,7 @@
 
       const step2 = ()=>{
           console.log("step2");
-
+          rotationPivot = true;
           modelDots.children[2].material = material;
 
           clearTasks();
@@ -311,14 +314,13 @@
           .easing(TWEEN.Easing.Cubic.Out)     
           .onUpdate(function () {
               camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-          }).onComplete(function(){
-              //camera.position.set(-20, 0, 80);
           }).start();
       }
 
       const step3 = ()=>{
             console.log("step3 - usa");
 
+            rotationPivot = false;
             clearTasks();
 
             let cameraFrom = {
@@ -351,12 +353,11 @@
             }).onComplete(function() {            
                 modelDots.children[2].material = materialGreen;
             }).start()
-
       }
 
       const step4 = ()=>{
           console.log("step4");
-
+          rotationPivot = true;
           modelDots.children[1].material = material;
           modelDots.children[2].material = material;
 
@@ -380,6 +381,7 @@
         // japan
           console.log("step5 - japan");
 
+          rotationPivot = false;
           clearTasks();
 
         let cameraFrom = {
@@ -388,42 +390,37 @@
               z: camera.position.z
         };
 
-            // get the current camera position
-            const start = new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
+        // get the current camera position
+        const start = new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
 
-            // move camera to the target
-            const point = sphere(modelDots.children[1]).center;
-            const camDistance = camera.position.length() / 2.5;
-            camera.position.copy(point).normalize().multiplyScalar(camDistance);
+        // move camera to the target
+        const point = sphere(modelDots.children[1]).center;
+        const camDistance = camera.position.length() / 3;
+        camera.position.copy(point).normalize().multiplyScalar(camDistance);
 
-            // save the camera position
-            const end =  new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
+        // save the camera position
+        const end =  new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
 
-            // invert back to original position
-            camera.position.copy(start).normalize().multiplyScalar(camDistance);
+        // invert back to original position
+        camera.position.copy(start).normalize().multiplyScalar(camDistance);
 
+        camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
+
+        new TWEEN.Tween(cameraFrom).to(end, 2000)
+        //.to({ z: 40, x: 0, y: 0 }, 2000)
+        .easing(TWEEN.Easing.Cubic.Out)
+        .onUpdate(function(){
             camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-
-
-        //new TWEEN.Tween( camera.rotation ).to({ x: 0, y: -0.2, z: 0}, 500)
-       // .onComplete(function() {
-            new TWEEN.Tween(cameraFrom).to(end, 2000)
-            //.to({ z: 40, x: 0, y: 0 }, 2000)
-            .easing(TWEEN.Easing.Cubic.Out)
-            .onUpdate(function(){
-                camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-                camera.lookAt(point);
-            }).onComplete(function() {
-              modelDots.children[1].material = materialGreen;
-            }).start();
-
-        //})
-        //.start();
+            camera.lookAt(point);
+        }).onComplete(function() {
+          modelDots.children[1].material = materialGreen;
+        }).start();
       }
 
       const step6 = ()=>{
           console.log("step6");
 
+          rotationPivot = false;
           modelDots.children[1].material = material;
           modelDots.children[0].material = material;
 
@@ -446,6 +443,7 @@
         // europa
           console.log("step7 - europa");
 
+          rotationPivot = false;
           clearTasks();
 
           let cameraFrom = {
@@ -486,6 +484,7 @@
       const step8 = ()=>{
           console.log("step8");
 
+          rotationPivot = true;
           modelDots.children[0].material = material;
 
           clearTasks();
@@ -507,7 +506,9 @@
       const step9 = ()=>{
         console.log("step9");
 
+        rotationPivot = false;
         clearTasks();
+        cameraSetup({x: 0, y: 0, z: 0},1050);
 
         let cameraFrom = {
               x: camera.position.x,
