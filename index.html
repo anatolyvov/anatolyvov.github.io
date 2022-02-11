@@ -410,10 +410,8 @@
               z: camera.position.z
           }
 
-          new TWEEN.Tween(cameraFrom).to({ x: -20, y: 0, z: 80 }, 4000)
-          .easing(TWEEN.Easing.Cubic.Out)
-          .onComplete(function(){
-          })       
+          new TWEEN.Tween(cameraFrom).to({ x: -30, y: 0, z: 80 }, 4000)
+          .easing(TWEEN.Easing.Cubic.Out)     
           .onUpdate(function () {
               camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
           }).start();
@@ -423,19 +421,10 @@
         // europa
           console.log("step7 - europa");
 
-          let cameraFrom = {
-              x: camera.position.x,
-              y: camera.position.y,
-              z: camera.position.z
-          }
-            new TWEEN.Tween(cameraFrom)
-            .to({ z: 40, x: 0, y: 0 }, 900)
-            .onUpdate(function () {
-              camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-            })
-            .onComplete(function() {
-                modelDots.children[0].material = materialGreen;
-            }).start();
+          new TWEEN.Tween(camera.position).to({ z: 40, x: 0, y: 0 }, 900)
+          .onComplete(function() {
+            modelDots.children[0].material = materialGreen;
+          }).start();
       }
 
       const step8 = ()=>{
