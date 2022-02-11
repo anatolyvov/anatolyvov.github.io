@@ -124,7 +124,7 @@
         camera.position.z = 40;
         camera.position.y = 18;
       }else{
-        camera.position.z = 70;//30;
+        camera.position.z = 30;
         camera.position.y = 10;
       }
 
@@ -235,11 +235,6 @@
               requestAnimationFrame( animate );
               //pivot.rotation.y += 0.01;
 
-              //shieldPivotRotationZ += 0.01;
-              //if(shieldPivotRotationZ >= (Math.PI * 2)){
-              //   shieldPivotRotationZ = 0;
-              //}
-              //shieldPivotRotationZ += 0.01;
               if(line1){
                 line1.rotation.y += 0.026;
               }
@@ -295,7 +290,7 @@
               z: camera.position.z
           }
 
-          new TWEEN.Tween(cameraFrom).to({ x: 0, y: 10, z: 70/*30*/}, 2000)
+          new TWEEN.Tween(cameraFrom).to({ x: 0, y: 10, z: 30}, 2000)
           .easing(TWEEN.Easing.Cubic.Out)        
           .onUpdate(function () {
               camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
@@ -322,7 +317,7 @@
           .onUpdate(function () {
               camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
           }).onComplete(function(){
-              camera.position.set(-20, 0, 80);
+              //camera.position.set(-20, 0, 80);
           }).start();
       }
 
@@ -337,39 +332,14 @@
               z: camera.position.z
             }
 
-            new TWEEN.Tween(cameraFrom/*camera.position*/)
-            .to({ z: 80, x: 0, y: 0 }, 500)
-            //.easing(TWEEN.Easing.Cubic.Out)
+            new TWEEN.Tween(cameraFrom)
+            .to({ z: 40, x: 0, y: 0 }, 1500)
             .onUpdate(function(){
                camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-            }).onComplete(function() {
-
-                const curve = new THREE.CatmullRomCurve3( [
-                    new THREE.Vector3( 0, 0, 80 ),
-                    new THREE.Vector3( -60, 0, 70 ),
-                    new THREE.Vector3( -80, 0, 40 ),
-                    new THREE.Vector3( -60, 0, 10 ),
-                    new THREE.Vector3( -28, 0, 0 ),
-                ]);
-
-                const points = curve.getPoints( 1500 );
-
-                for (var i = 0; i < 500; i++) {
-                    (function(index) {
-                        tasks.push(setTimeout(function() { 
-                            if(step === 3){
-                              camera.position.copy(points[index]);
-                              camera.lookAt(new THREE.Vector3(scene.position.x, scene.position.y , scene.position.z));
-                              //camera.lookAt(
-                                //modelDots.children[2].geometry.boundingSphere.center
-                              //);
-                            }
-                        }, i * 5));
-                    })(i);
-                }
-
+            }).onComplete(function() {             
                 modelDots.children[2].material = materialGreen;
             }).start()
+
       }
 
       const step4 = ()=>{
@@ -390,7 +360,6 @@
           .easing(TWEEN.Easing.Cubic.Out)        
           .onUpdate(function () {
               camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-              //camera.lookAt(new THREE.Vector3(scene.position.x, scene.position.y, scene.position.z));
           }).start();
 
       }
@@ -402,30 +371,29 @@
           clearTasks();
 
         let cameraFrom = {
-            x: camera.position.x,
-            y: camera.position.y,
-            z: camera.position.z
-        }
+              x: camera.position.x,
+              y: camera.position.y,
+              z: camera.position.z
+        };
 
-        new TWEEN.Tween( camera.rotation ).to({ x: 0, y: -0.2, z: 0}, 500)
-        .onComplete(function() {
+        //new TWEEN.Tween( camera.rotation ).to({ x: 0, y: -0.2, z: 0}, 500)
+        //.onComplete(function() {
             new TWEEN.Tween(cameraFrom)
-            .to({ z: 2, x: 28, y: 0 }, 2000)
+            .to({ z: 40, x: 0, y: 0 }, 2000)
+            //.delay(500)
             .easing(TWEEN.Easing.Cubic.Out)
-            .delay(500)
-             .onUpdate(function(){
+            .onUpdate(function(){
                 camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-                camera.lookAt(new THREE.Vector3(14, 0, 0.7))
-                //camera.lookAt(new THREE.Vector3(scene.position.x, scene.position.y, scene.position.z));
+                //camera.lookAt(new THREE.Vector3(14, 0, 0.5))
+               // camera.lookAt(new THREE.Vector3(scene.position.x, scene.position.y, scene.position.z));
             }).onComplete(function() {
               modelDots.children[1].material = materialGreen;
             }).start();
 
-        })
-        .start();
+        //})
+        //.start();
 
-            
-        cameraSetup({ x: -0.2347317536273475, y: 0.07404189755525604, z : 0.017688367787720344},1000)
+        //cameraSetup({ x: -0.2347317536273475, y: 0.07404189755525604, z : 0.017688367787720344},1000)
       }
 
       const step6 = ()=>{
@@ -442,7 +410,7 @@
               z: camera.position.z
           }
 
-          new TWEEN.Tween(cameraFrom).to({ x: -20, y: 0, z: 80}, 4000)
+          new TWEEN.Tween(cameraFrom).to({ x: -30, y: 0, z: 80 }, 4000)
           .easing(TWEEN.Easing.Cubic.Out)
           .onComplete(function(){
           })       
@@ -454,39 +422,18 @@
       const step7 = ()=>{
         // europa
           console.log("step7 - europa");
-          
+
           let cameraFrom = {
               x: camera.position.x,
               y: camera.position.y,
               z: camera.position.z
           }
-
             new TWEEN.Tween(cameraFrom)
-            .to({ z: 80, x: 28, y: 0 }, 900)
+            .to({ z: 40, x: 0, y: 0 }, 900)
             .onUpdate(function () {
               camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-          })
+            })
             .onComplete(function() {
-                const curve = new THREE.CatmullRomCurve3( [
-                    new THREE.Vector3( 28, 0, 80 ),
-                    new THREE.Vector3( 60, 0, 70 ),
-                    new THREE.Vector3( 80, 0, 40 ),
-                    new THREE.Vector3( 60, 0, 10 ),
-                    new THREE.Vector3( 28, 0, 2 ),
-                ], false, 'catmullrom');
-
-                const points = curve.getPoints( 500 );
-
-                for (var i = 0; i < 500; i++) {
-                    (function(index) {
-                        tasks.push(setTimeout(function() { 
-                            camera.position.copy(points[index])
-                            camera.lookAt(new THREE.Vector3(23.5, 0, 0.5))
-                            //camera.lookAt(new THREE.Vector3(scene.position.x, scene.position.y, scene.position.z));
-                        }, i * 5));
-                    })(i);
-                }
-
                 modelDots.children[0].material = materialGreen;
             }).start();
       }
