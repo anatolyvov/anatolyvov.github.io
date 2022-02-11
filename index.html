@@ -233,7 +233,7 @@
 
           const animate = ()=> {
               requestAnimationFrame( animate );
-              //pivot.rotation.y += 0.01;
+              pivot.rotation.y += 0.01;
 
               if(line1){
                 line1.rotation.y += 0.026;
@@ -410,7 +410,7 @@
               z: camera.position.z
           }
 
-          new TWEEN.Tween(cameraFrom).to({ x: -30, y: 0, z: 80 }, 4000)
+          new TWEEN.Tween(cameraFrom).to({ x: -20, y: 0, z: 80 }, 4000)
           .easing(TWEEN.Easing.Cubic.Out)
           .onComplete(function(){
           })       
