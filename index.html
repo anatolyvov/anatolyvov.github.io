@@ -124,7 +124,7 @@
         camera.position.z = 40;
         camera.position.y = 18;
       }else{
-        camera.position.z = 40;
+        camera.position.z = 50;
         camera.position.y = 10;
       }
 
@@ -147,7 +147,7 @@
       let material = new THREE.MeshStandardMaterial( {color: 0x00b3ff, side: THREE.DoubleSide} );
       let materialGreen = new THREE.MeshStandardMaterial( {color: 0x00ff00, side: THREE.DoubleSide} );
 
-      var customMaterial = new THREE.ShaderMaterial({
+      let customMaterial = new THREE.ShaderMaterial({
           uniforms: 
           { 
                 "s":   { type: "f", value: -1.0},
@@ -161,6 +161,8 @@
           blending: THREE.AdditiveBlending,
           transparent: false
       })
+      let customMaterialGreen = customMaterial.clone();
+      customMaterialGreen.uniforms.glowColor.value.set(new THREE.Color('#00ff00'));
 
           let fixY = -12.5;
           loadModel(modelurl).then((model)=>{
@@ -243,19 +245,6 @@
               if(line4) {
                 line4.rotation.y -= 0.016;
               }
-              /*if(!isMobile){
-                if(shield1){
-                    shield1.lookAt(new THREE.Vector3(0,0,1000))
-                }
-                if(shield2){
-                    if(!lockLookShieled){
-                        shield2.lookAt(new THREE.Vector3(0,0,1000))
-                    }
-                }
-                if(shield3){
-                    shield3.lookAt(new THREE.Vector3(0,0,1000))
-                }
-              }*/
               composer.render();
               TWEEN.update()
           };
@@ -334,7 +323,7 @@
 
             // move camera to the target
             const point = sphere(modelDots.children[2]).center;
-            const camDistance = camera.position.length() / 3;
+            const camDistance = camera.position.length() * 0.5;
             camera.position.copy(point).normalize().multiplyScalar(camDistance);
 
             // save the camera position
@@ -351,7 +340,7 @@
                camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
                camera.lookAt(point);
             }).onComplete(function() {            
-                modelDots.children[2].material = materialGreen;
+                modelDots.children[2].material = customMaterialGreen;
             }).start()
       }
 
@@ -395,7 +384,7 @@
 
         // move camera to the target
         const point = sphere(modelDots.children[1]).center;
-        const camDistance = camera.position.length() / 3;
+        const camDistance = camera.position.length() * 0.5;
         camera.position.copy(point).normalize().multiplyScalar(camDistance);
 
         // save the camera position
@@ -413,14 +402,14 @@
             camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
             camera.lookAt(point);
         }).onComplete(function() {
-          modelDots.children[1].material = materialGreen;
+          modelDots.children[1].material = customMaterialGreen;
         }).start();
       }
 
       const step6 = ()=>{
           console.log("step6");
 
-          rotationPivot = false;
+          rotationPivot = true;
           modelDots.children[1].material = material;
           modelDots.children[0].material = material;
 
@@ -457,8 +446,8 @@
 
             // move camera to the target
             const point = sphere(modelDots.children[0]).center;
-            const camDistance = camera.position.length();
-            camera.position.copy(point).normalize().multiplyScalar(camDistance / 3);
+            const camDistance = camera.position.length() * 0.5;
+            camera.position.copy(point).normalize().multiplyScalar(camDistance);
 
             // save the camera position
             const end =  new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
@@ -477,7 +466,7 @@
             camera.lookAt(point);
           })
           .onComplete(function() {
-            modelDots.children[0].material = materialGreen;
+            modelDots.children[0].material = customMaterialGreen;
           }).start();
       }
 
@@ -506,7 +495,7 @@
       const step9 = ()=>{
         console.log("step9");
 
-        rotationPivot = false;
+        rotationPivot = true;
         clearTasks();
         cameraSetup({x: 0, y: 0, z: 0},1050);
 
