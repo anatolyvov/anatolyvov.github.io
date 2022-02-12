@@ -299,7 +299,8 @@
       .easing(TWEEN.Easing.Cubic.Out)     
       .onUpdate(function () {
         camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-      }).start();
+      })
+      .start();
     }
 
     const step3 = () => {
@@ -332,7 +333,7 @@
       .onUpdate(function () {
         camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
         camera.lookAt(point);
-      }).onComplete(function() {            
+      }).onComplete(function() {     
         modelDots.children[2].material = customMaterialGreen;
       }).start();
     }
