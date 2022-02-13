@@ -333,7 +333,7 @@
       .onUpdate(function () {
         camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
         camera.lookAt(point);
-      }).onComplete(function() {     
+      }).onComplete(function() {
         modelDots.children[2].material = customMaterialGreen;
       }).start();
     }
@@ -412,7 +412,7 @@
       };
 
       new TWEEN.Tween(cameraFrom)
-      .to({ x: -50, y: 0, z: 80}, 4000)
+      .to({ x: -20, y: 0, z: 80}, 4000)
       .easing(TWEEN.Easing.Cubic.Out)     
       .onUpdate(function () {
         camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
