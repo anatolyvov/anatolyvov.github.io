@@ -100,6 +100,9 @@
     ]);
     scene.background = texture;
     //scene.background = new THREE.Color(0.009496, 0.014244, 0.037984, 1);
+
+    let fixY = -12.5;
+
     let camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 1000);
     scene.add(camera);
 
@@ -157,7 +160,6 @@
     let customMaterialGreen = customMaterial.clone();
     customMaterialGreen.uniforms.glowColor.value.set(new THREE.Color('#00ff00'));
 
-    let fixY = -12.5;
     loadModel(modelurl).then((model) => {
       pivot.add(model)
       model.position.y = fixY; 
@@ -225,7 +227,6 @@
       if(rotationPivot) {
         pivot.rotation.y += 0.01;
       }
-
       if(line1){
         line1.rotation.y += 0.026;
       }
@@ -238,7 +239,6 @@
       if(line4) {
         line4.rotation.y -= 0.016;
       }
-
       composer.render();
       TWEEN.update()
     };
@@ -254,8 +254,6 @@
       }
     }
 
-    let endRotation = camera.quaternion.clone();
-
     const cameraSetup = (point, duration) => {
       new TWEEN.Tween(camera.rotation).to(point, duration ? duration : 2000).start();
     }
@@ -265,18 +263,10 @@
 
       clearTasks();
 
-      let cameraFrom = {
-        x: camera.position.x,
-        y: camera.position.y,
-        z: camera.position.z
-      };
-
-      new TWEEN.Tween(cameraFrom)
+      new TWEEN.Tween(camera.position)
       .to({ x: 0, y: 10, z: 30}, 2000)
       .easing(TWEEN.Easing.Cubic.Out)        
-      .onUpdate(function () {
-        camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-      }).start();
+      .start();
     }
 
     const step2 = () => {
@@ -288,18 +278,9 @@
       clearTasks();
       cameraSetup({x: 0, y: 0, z: 0}, 1450);
 
-      let cameraFrom = {
-        x: camera.position.x,
-        y: camera.position.y,
-        z: camera.position.z
-      }
-
-      new TWEEN.Tween(cameraFrom)
+      new TWEEN.Tween(camera.position)
       .to({ x: -20, y: 0, z: 80}, 2000)
-      .easing(TWEEN.Easing.Cubic.Out)     
-      .onUpdate(function () {
-        camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-      })
+      .easing(TWEEN.Easing.Cubic.Out)    
       .start();
     }
 
@@ -309,32 +290,29 @@
       rotationPivot = false;
       clearTasks();
 
-      let cameraFrom = {
-        x: camera.position.x,
-        y: camera.position.y,
-        z: camera.position.z
-      };
-
       let cloneCamera = camera.clone();
       // get the current camera position
       const start = new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
 
       // move camera to the target
-      const point = sphere(modelDots.children[2]).center;
+      const point = sphere(modelDots.children[2]).center.normalize();
       const camDistance = cloneCamera.position.length() * 0.5;
       cloneCamera.position.copy(point).normalize().multiplyScalar(camDistance);
 
       // save the camera position
       const end =  new THREE.Vector3(cloneCamera.position.x, cloneCamera.position.y, cloneCamera.position.z);
 
-      new TWEEN.Tween(cameraFrom)
-      .to(end, 4000)
-      .easing(TWEEN.Easing.Cubic.Out)
-      .onUpdate(function () {
-        camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-        camera.lookAt(point);
-      }).onComplete(function() {
-        modelDots.children[2].material = customMaterialGreen;
+      new TWEEN.Tween(camera.position)
+      .to({ z: 80, x: 0, y: 0 }, 500)
+      .onComplete(function() {
+        new TWEEN.Tween(camera.position)
+        .to(end, 4000)
+        .easing(TWEEN.Easing.Cubic.Out)
+        .onUpdate(function () {
+          camera.lookAt(point);
+        }).onComplete(function() {
+          modelDots.children[2].material = customMaterialGreen;
+        }).start();
       }).start();
     }
 
@@ -348,18 +326,10 @@
       clearTasks();
       cameraSetup({x: 0, y: 0, z: 0},1450);
 
-      let cameraFrom = {
-        x: camera.position.x,
-        y: camera.position.y,
-        z: camera.position.z
-      };
-
-      new TWEEN.Tween(cameraFrom)
+      new TWEEN.Tween(camera.position)
       .to({ x: 30, y: 19, z: 80}, 2000)
       .easing(TWEEN.Easing.Cubic.Out)        
-      .onUpdate(function () {
-       camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-      }).start();
+      .start();
     }
 
     const step5 = () => {
@@ -369,29 +339,26 @@
       rotationPivot = false;
       clearTasks();
 
-      let cameraFrom = {
-        x: camera.position.x,
-        y: camera.position.y,
-        z: camera.position.z
-      };
-
       let cloneCamera = camera.clone();
       const start = new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
 
-      const point = sphere(modelDots.children[1]).center;
+      const point = sphere(modelDots.children[1]).center.normalize();
       const camDistance = cloneCamera.position.length() * 0.5;
       cloneCamera.position.copy(point).normalize().multiplyScalar(camDistance);
 
       const end = new THREE.Vector3(cloneCamera.position.x, cloneCamera.position.y, cloneCamera.position.z);
 
-      new TWEEN.Tween(cameraFrom)
-      .to(end, 4000)
-      .easing(TWEEN.Easing.Cubic.Out)
-      .onUpdate(function () {
-        camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-        camera.lookAt(point);
-      }).onComplete(function() {
-        modelDots.children[1].material = customMaterialGreen;
+      new TWEEN.Tween(camera.position)
+      .to({ z: 80, x: 0, y: 0 }, 900)
+      .onComplete(function(){
+        new TWEEN.Tween(camera.position)
+        .to(end, 4000)
+        .easing(TWEEN.Easing.Cubic.Out)
+        .onUpdate(function () {
+          camera.lookAt(point);
+        }).onComplete(function() {
+          modelDots.children[1].material = customMaterialGreen;
+        }).start();
       }).start();
     }
 
@@ -405,51 +372,40 @@
       clearTasks();
       cameraSetup({x: 0, y: 0, z: 0}, 1450);
 
-      let cameraFrom = {
-        x: camera.position.x,
-        y: camera.position.y,
-        z: camera.position.z
-      };
-
-      new TWEEN.Tween(cameraFrom)
+      new TWEEN.Tween(camera.position)
       .to({ x: -20, y: 0, z: 80}, 4000)
       .easing(TWEEN.Easing.Cubic.Out)     
-      .onUpdate(function () {
-        camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-      }).start();
+      .start();
     }
 
     const step7 = () => {
-      // europa
-      console.log("step7 - europa");
+      // europe
+      console.log("step7 - europe");
 
       rotationPivot = false;
       clearTasks();
 
-      let cameraFrom = {
-        x: camera.position.x,
-        y: camera.position.y,
-        z: camera.position.z
-      };
-
       let cloneCamera = camera.clone();
       const start = new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
 
-      const point = sphere(modelDots.children[0]).center;
+      const point = sphere(modelDots.children[0]).center.normalize();
       const camDistance = cloneCamera.position.length() * 0.5;
       cloneCamera.position.copy(point).normalize().multiplyScalar(camDistance);
 
-      const end =  new THREE.Vector3(cloneCamera.position.x, cloneCamera.position.y, cloneCamera.position.z);
+      const end = new THREE.Vector3(cloneCamera.position.x, cloneCamera.position.y, cloneCamera.position.z);
 
-      new TWEEN.Tween(cameraFrom)
-      .to(end, 4000)
-      .easing(TWEEN.Easing.Cubic.Out)
-      .onUpdate(function(){
-        camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-        camera.lookAt(point);
-      })
+      new TWEEN.Tween(camera.position)
+      .to({ z: 80, x: 0, y: 0 }, 500)
       .onComplete(function() {
-        modelDots.children[0].material = customMaterialGreen;
+        new TWEEN.Tween(camera.position)
+        .to(end, 4000)
+        .easing(TWEEN.Easing.Cubic.Out)
+        .onUpdate(function(){
+          camera.lookAt(point);
+        })
+        .onComplete(function() {
+          modelDots.children[0].material = customMaterialGreen;
+         }).start()
       }).start();
     }
 
@@ -460,20 +416,12 @@
       modelDots.children[0].material = material;
 
       clearTasks();
-      cameraSetup({x: 0, y: 0, z: 0}, 1050);
-          
-      let cameraFrom = {
-        x: camera.position.x,
-        y: camera.position.y,
-        z: camera.position.z
-      };
+      cameraSetup({x: 0, y: 0, z: 0}, 1050); 
 
-      new TWEEN.Tween(cameraFrom)
+      new TWEEN.Tween(camera.position)
       .to({ x: 30, y: 19, z: 80}, 4000)
       .easing(TWEEN.Easing.Cubic.Out)        
-      .onUpdate(function () {
-        camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-      }).start();
+      .start();
     }
 
     const step9 = () => {
@@ -481,20 +429,11 @@
 
       rotationPivot = true;
       clearTasks();
-      cameraSetup({x: 0, y: 0, z: 0}, 1050);
 
-      let cameraFrom = {
-        x: camera.position.x,
-        y: camera.position.y,
-        z: camera.position.z
-      };
-
-      new TWEEN.Tween(cameraFrom)
+      new TWEEN.Tween(camera.position)
       .to({ x: -10, y: 10, z: 40}, 4000)
       .easing(TWEEN.Easing.Cubic.Out)        
-      .onUpdate(function () {
-        camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-      }).start();
+      .start();
     }
 
     const step1Mobile = () => {
@@ -532,7 +471,7 @@
       }).start();
     }
 
-    const step3Mobile = ()=>{
+    const step3Mobile = () => {
       clearTasks();
       cameraSetup({x: 0, y: 0, z: 0}, 1450);
 
@@ -699,7 +638,6 @@
         const intersects = raycaster.intersectObjects(sceneMeshes, false);
         if (intersects.length > 0) {
           if(step === 3){
-            //console.log(shield1.rotation.y)
             //new TWEEN.Tween(shield1.rotation ).to({ x: 0, y: shield1.rotation.y === 0 ? Math.PI : 0, z: 0}, 1000).start();
           }
           if(step === 4){
