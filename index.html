@@ -868,13 +868,13 @@
       }
     }
 
-    //const raycaster = new THREE.Raycaster();
+    const raycaster = new THREE.Raycaster();
 
     if(isMobile) {
       window.onscroll = function() {
         onscrollMobile()
       };
-      //document.addEventListener('touchstart', handleTouchStart, false);
+      document.addEventListener('touchstart', handleTouchStart, false);
       document.addEventListener('touchmove', handleTouchMove, false);
 
       var xDown = null;                                                        
@@ -884,7 +884,7 @@
         return evt.touches || evt.originalEvent.touches; 
       }                                                     
                                                                               
-      /*function handleTouchStart(evt) {
+      function handleTouchStart(evt) {
         const firstTouch = getTouches(evt)[0];                                      
         xDown = firstTouch.clientX;                                      
         yDown = firstTouch.clientY;       
@@ -896,16 +896,16 @@
         const intersects = raycaster.intersectObjects(sceneMeshes, false)
         if (intersects.length > 0) {
           if(step === 3){
-            new TWEEN.Tween(shield1.rotation ).to({ x: 0, y: shield1.rotation.y === 0 ? Math.PI : 0, z: 0}, 1000).start();
+           // new TWEEN.Tween(shield1.rotation ).to({ x: 0, y: shield1.rotation.y === 0 ? Math.PI : 0, z: 0}, 1000).start();
           }
           if(step === 4){
-            new TWEEN.Tween(shield2.rotation ).to({ x: 0,y: shield2.rotation.y === 0 ? Math.PI : 0, z: 0}, 1000).start();
+           // new TWEEN.Tween(shield2.rotation ).to({ x: 0,y: shield2.rotation.y === 0 ? Math.PI : 0, z: 0}, 1000).start();
           }
           if(step === 5){
-            new TWEEN.Tween(shield3.rotation ).to({ x: 0, y: shield3.rotation.y === 0 ? Math.PI : 0, z: 0}, 1000).start();
+            //new TWEEN.Tween(shield3.rotation ).to({ x: 0, y: shield3.rotation.y === 0 ? Math.PI : 0, z: 0}, 1000).start();
           }
         }                               
-      };*/                                                
+      };                                               
                                                                               
       function handleTouchMove(evt) {
         if ( ! xDown || ! yDown ) {
