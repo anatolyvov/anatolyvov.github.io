@@ -81,10 +81,6 @@
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if(isMobile){
       document.getElementById('scroll').style.display = 'none';
-      if (document.fullscreenEnabled)
-        document.fullscreenEnabled();
-      if(document.isFullScreen)
-        document.isFullScreen();
     }
 
     let shield1StartPosition = null;
@@ -756,6 +752,22 @@
       }                                                     
                                                                               
       function handleTouchStart(evt) {
+        function requestFullScreen(element) {
+          // Supports most browsers and their versions.
+          let requestMethod = 
+            element.requestFullScreen || 
+            element.webkitRequestFullScreen || 
+            element.mozRequestFullScreen || 
+            element.msRequestFullScreen;
+
+          if (requestMethod) {
+              requestMethod.call(element);
+          }
+        }
+
+        let elem = document.body; // Make the body go full screen.
+        requestFullScreen(elem);
+
         const firstTouch = getTouches(evt)[0];                                      
         xDown = firstTouch.clientX;                                      
         yDown = firstTouch.clientY;       
