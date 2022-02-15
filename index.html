@@ -78,9 +78,12 @@
       });
     }
 
-    const isMobile = false;// = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if(isMobile){
       document.getElementById('scroll').style.display = 'none';
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      }
     }
 
     let shield1StartPosition = null;
@@ -122,13 +125,13 @@
     const pointLight = new THREE.PointLight( 0xffffff, 1.7 );
     camera.add( pointLight );
       
-    if(isMobile){
-      camera.position.z = 40;
-      camera.position.y = 18;
-    } else {
+    //if(isMobile){
+    //  camera.position.z = 40;
+     // camera.position.y = 18;
+    //} else {
       camera.position.z = 70;
       camera.position.y = 10;
-    }
+    //}
 
     let step = 1;
     let pivot = new THREE.Object3D();
@@ -260,20 +263,6 @@
     scene.add(shield2Pivot);
     scene.add(shield3Pivot);
 
-    if(isMobile) {
-      shield1.position.x = 0;
-      shield1.position.y = 0;
-      shield1.position.z = 22;
-
-      shield2.position.x = 0;
-      shield2.position.y = 0;
-      shield2.position.z = 31;
-
-      shield3.position.x = 0;
-      shield3.position.y = 0;
-      shield3.position.z = 39;
-    }
-
     shield1StartPosition = {
       x: shield1.position.x,
       y: shield1.position.y,
@@ -324,19 +313,6 @@
       if(!lockShiled3){
         shield3Pivot.rotation.z = shieldPivotRotationZ;
       }
-      if(!isMobile){
-        if(shield1){
-          shield1.lookAt(new THREE.Vector3(0, 0, 1000));
-        }
-        if(shield2){
-          if(!lockLookShieled){
-            shield2.lookAt(new THREE.Vector3(0, 0, 1000));
-          }
-        }
-        if(shield3){
-          shield3.lookAt(new THREE.Vector3(0, 0, 1000));
-        }
-      }
       composer.render();
       TWEEN.update();
     };
@@ -352,8 +328,6 @@
         clearTimeout(tasks[i]);
       }
     }
-
-    //let endRotation = camera.quaternion.clone();
 
     const cameraSetup = (point, duration) => {
       new TWEEN.Tween( camera.rotation ).to(point, duration ? duration : 2000 ).start();
@@ -706,8 +680,8 @@
       new TWEEN.Tween(shield3Pivot.scale).to({ x: 10, y: 10, z: 10}, 1000).start();
     }
 
-    const step1Mobile = () => {
-      /*clearTasks();
+    /*const step1Mobile = () => {
+      clearTasks();
 
       let cameraFrom = {
         x: camera.position.x,
@@ -719,7 +693,7 @@
       .easing(TWEEN.Easing.Cubic.Out)        
       .onUpdate(function () {
         camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-      }).start();*/
+      }).start();
 
 
     }
@@ -821,7 +795,7 @@
       .onUpdate(function () {
         camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
       }).start();
-    }
+    }*/
 
     function sphere(object) {
       let sphere;
@@ -865,7 +839,7 @@
       }
     }
 
-    function onscrollMobile() {
+    /*function onscrollMobile() {
       let scrollTop = document.body.scrollTop;
       if(step == 1) {
           step1Mobile();
@@ -880,11 +854,11 @@
       }if(step == 6) {
           step6Mobile();
       }
-    }
+    }*/
 
-    const raycaster = new THREE.Raycaster();
+    //const raycaster = new THREE.Raycaster();
 
-    if(isMobile) {
+    /*if(isMobile) {
       window.onscroll = function() {
         onscrollMobile()
       };
@@ -932,11 +906,9 @@
         let xDiff = xDown - xUp;
         let yDiff = yDown - yUp;
                                                                               
-        if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {/*most significant*/
+        if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
           if ( xDiff > 0 ) {
-            /* right swipe */ 
           } else {
-            /* left swipe */
           }                       
         } else {
           if ( yDiff > 0 ) {
@@ -954,11 +926,11 @@
         xDown = null;
         yDown = null;                                             
       };
-    } else {
+    } else {*/
       window.onscroll = function() {
         onscroll()
       };
-    }
+    //}
 
     function onWindowResize() {
       camera.aspect = window.innerWidth / window.innerHeight;
