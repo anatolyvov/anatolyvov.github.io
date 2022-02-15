@@ -81,6 +81,12 @@
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if(isMobile){
       document.getElementById('scroll').style.display = 'none';
+      screen.orientation.lock("landscape")
+      .then(function() {
+      })
+      .catch(function(error) {
+        alert(error);
+      });
     }
 
     let shield1StartPosition = null;
@@ -752,8 +758,6 @@
       }                                                     
                                                                               
       function handleTouchStart(evt) {
-        document.body.requestFullScreen(); 
-
         const firstTouch = getTouches(evt)[0];                                      
         xDown = firstTouch.clientX;                                      
         yDown = firstTouch.clientY;       
