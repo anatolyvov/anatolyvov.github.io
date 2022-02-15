@@ -81,10 +81,10 @@
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if(isMobile){
       document.getElementById('scroll').style.display = 'none';
-      //let elem = document.documentElement;
-      //if (elem.requestFullscreen) {
-      //  elem.requestFullscreen();
-      //}
+      let elem = document.documentElement;
+      if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+      }
     }
 
     let shield1StartPosition = null;
@@ -117,12 +117,7 @@
     scene.add( camera );
     let renderer = new THREE.WebGLRenderer( { antialias: true } );
     renderer.setPixelRatio( 2.3 );
-    if(isMobile) {
-      if(window.innerHeight > window.innerWidth)
-        renderer.setSize( window.innerHeight, window.innerWidth );
-    } else {
-      renderer.setSize( window.innerWidth, window.innerHeight );
-    }
+    renderer.setSize( window.innerWidth, window.innerHeight );
     renderer.toneMapping = THREE.ReinhardToneMapping;
     renderer.toneMappingExposure = Math.pow( 1.1, 1.1 );
      
@@ -131,13 +126,8 @@
     const pointLight = new THREE.PointLight( 0xffffff, 1.7 );
     camera.add( pointLight );
       
-    //if(isMobile){
-    //  camera.position.z = 40;
-     // camera.position.y = 18;
-    //} else {
-      camera.position.z = 70;
-      camera.position.y = 10;
-    //}
+    camera.position.z = 70;
+    camera.position.y = 10;
 
     let step = 1;
     let pivot = new THREE.Object3D();
@@ -686,123 +676,6 @@
       new TWEEN.Tween(shield3Pivot.scale).to({ x: 10, y: 10, z: 10}, 1000).start();
     }
 
-    /*const step1Mobile = () => {
-      clearTasks();
-
-      let cameraFrom = {
-        x: camera.position.x,
-        y: camera.position.y,
-        z: camera.position.z
-      }
-      new TWEEN.Tween(cameraFrom)
-      .to({x: 0, y: 15, z: 40}, 2000)
-      .easing(TWEEN.Easing.Cubic.Out)        
-      .onUpdate(function () {
-        camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-      }).start();
-
-
-    }
-
-    const step2Mobile = () => {
-      clearTasks();
-      cameraSetup({x: 0, y: 0, z: 0}, 1450)
-
-      let cameraFrom = {
-        x: camera.position.x,
-        y: camera.position.y,
-        z: camera.position.z
-      }
-
-      new TWEEN.Tween(cameraFrom)
-      .to({x: 0, y: 10, z: 30}, 2000)
-      .easing(TWEEN.Easing.Cubic.Out)      
-      .onUpdate(function () {
-        camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-      }).start();
-    }
-
-    const step3Mobile = () => {
-      clearTasks();
-      cameraSetup({x: 0, y: 0, z: 0}, 1450)
-
-      let cameraFrom = {
-        x: camera.position.x,
-        y: camera.position.y,
-        z: camera.position.z
-      }
-
-      new TWEEN.Tween(cameraFrom)
-      .to({x: 0, y: 0, z: 29}, 2000)
-      .easing(TWEEN.Easing.Cubic.Out)
-      .onComplete(function(){
-        shield2.rotation.y = 0;
-      })       
-      .onUpdate(function () {
-        camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-      }).start();
-    }
-
-    const step4Mobile = () => {
-      clearTasks();
-      cameraSetup({x: 0, y: 0, z: 0}, 1450)
-
-      let cameraFrom = {
-        x: camera.position.x,
-        y: camera.position.y,
-        z: camera.position.z
-      }
-
-      new TWEEN.Tween(cameraFrom)
-      .to({x: 0, y: 0, z: 39}, 2000)
-      .easing(TWEEN.Easing.Cubic.Out)
-      .onComplete(function(){
-        shield1.rotation.y = 0;
-        shield3.rotation.y = 0;
-      })       
-      .onUpdate(function () {
-        camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-      }).start();
-    }
-
-    const step5Mobile = () => {
-      clearTasks();
-      cameraSetup({x: 0, y: 0, z: 0}, 1450)
-
-      let cameraFrom = {
-        x: camera.position.x,
-        y: camera.position.y,
-        z: camera.position.z
-      }
-
-      new TWEEN.Tween(cameraFrom)
-      .to({x: 0, y: 0, z: 47}, 2000)
-      .easing(TWEEN.Easing.Cubic.Out)
-      .onComplete(function(){
-        shield2.rotation.y = 0;
-      })       
-      .onUpdate(function () {
-        camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-      }).start();
-    }
-
-    const step6Mobile = ()=>{
-      clearTasks();
-
-      let cameraFrom = {
-        x: camera.position.x,
-        y: camera.position.y,
-        z: camera.position.z
-      }
-
-      new TWEEN.Tween(cameraFrom)
-      .to({ x: 0, y: 20, z: 40}, 2000)
-      .easing(TWEEN.Easing.Cubic.Out)        
-      .onUpdate(function () {
-        camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-      }).start();
-    }*/
-
     function sphere(object) {
       let sphere;
       object.updateMatrixWorld();
@@ -868,8 +741,6 @@
       }
     }
 
-    const raycaster = new THREE.Raycaster();
-
     if(isMobile) {
       window.onscroll = function() {
         onscrollMobile()
@@ -891,20 +762,7 @@
         const mouse = {
           x: (xDown / renderer.domElement.clientWidth) * 2 - 1,
           y: -(yDown / renderer.domElement.clientHeight) * 2 + 1,
-        }
-        raycaster.setFromCamera(mouse, camera)
-        const intersects = raycaster.intersectObjects(sceneMeshes, false)
-        if (intersects.length > 0) {
-          if(step === 3){
-           // new TWEEN.Tween(shield1.rotation ).to({ x: 0, y: shield1.rotation.y === 0 ? Math.PI : 0, z: 0}, 1000).start();
-          }
-          if(step === 4){
-           // new TWEEN.Tween(shield2.rotation ).to({ x: 0,y: shield2.rotation.y === 0 ? Math.PI : 0, z: 0}, 1000).start();
-          }
-          if(step === 5){
-            //new TWEEN.Tween(shield3.rotation ).to({ x: 0, y: shield3.rotation.y === 0 ? Math.PI : 0, z: 0}, 1000).start();
-          }
-        }                               
+        }                             
       };                                               
                                                                               
       function handleTouchMove(evt) {
