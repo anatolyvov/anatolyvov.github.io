@@ -441,7 +441,7 @@
 
       // move camera to the target
       const point = sphere(modelDots.children[2]).center.normalize();
-      const camDistance = cloneCamera.position.length() * 0.3;
+      const camDistance = cloneCamera.position.length() * 0.4;
       cloneCamera.position.copy(point).normalize().multiplyScalar(camDistance);
 
       // save the camera position
@@ -623,7 +623,7 @@
       const start = new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
 
       const point = sphere(modelDots.children[0]).center.normalize();
-      const camDistance = cloneCamera.position.length() * 0.3;
+      const camDistance = cloneCamera.position.length() * 0.4;
       cloneCamera.position.copy(point).normalize().multiplyScalar(camDistance);
 
       const end = new THREE.Vector3(cloneCamera.position.x, cloneCamera.position.y, cloneCamera.position.z);
