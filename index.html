@@ -81,10 +81,10 @@
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if(isMobile){
       document.getElementById('scroll').style.display = 'none';
-      let elem = document.documentElement;
-      if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-      }
+      //let elem = document.documentElement;
+      //if (elem.requestFullscreen) {
+      //  elem.requestFullscreen();
+      //}
     }
 
     let shield1StartPosition = null;
@@ -845,30 +845,36 @@
       }
     }
 
-    /*function onscrollMobile() {
+    function onscrollMobile() {
       let scrollTop = document.body.scrollTop;
       if(step == 1) {
-          step1Mobile();
-      }if(step == 2) {
-          step2Mobile();
-      }if(step == 3) {
-          step3Mobile();
-      }if(step == 4) {
-          step4Mobile();
-      }if(step == 5) {
-          step5Mobile();
-      }if(step == 6) {
-          step6Mobile();
+          step1();
+      } if(step == 2) {
+          step2();
+      } if(step == 3) {
+          step3();
+      } if(step == 4) {
+          step4();
+      } if(step == 5) {
+          step5();
+      } if(step == 6) {
+          step6();
+      } if(step == 7) {
+          step7();
+      } if(step == 8) {
+          step8();
+      } if(step == 9) {
+          step9();
       }
-    }*/
+    }
 
     //const raycaster = new THREE.Raycaster();
 
-    /*if(isMobile) {
+    if(isMobile) {
       window.onscroll = function() {
         onscrollMobile()
       };
-      document.addEventListener('touchstart', handleTouchStart, false);
+      //document.addEventListener('touchstart', handleTouchStart, false);
       document.addEventListener('touchmove', handleTouchMove, false);
 
       var xDown = null;                                                        
@@ -878,7 +884,7 @@
         return evt.touches || evt.originalEvent.touches; 
       }                                                     
                                                                               
-      function handleTouchStart(evt) {
+      /*function handleTouchStart(evt) {
         const firstTouch = getTouches(evt)[0];                                      
         xDown = firstTouch.clientX;                                      
         yDown = firstTouch.clientY;       
@@ -899,7 +905,7 @@
             new TWEEN.Tween(shield3.rotation ).to({ x: 0, y: shield3.rotation.y === 0 ? Math.PI : 0, z: 0}, 1000).start();
           }
         }                               
-      };                                                
+      };*/                                                
                                                                               
       function handleTouchMove(evt) {
         if ( ! xDown || ! yDown ) {
@@ -918,7 +924,7 @@
           }                       
         } else {
           if ( yDiff > 0 ) {
-            if(step<6){
+            if(step < 9){
               step++;
             }
             onscrollMobile();
@@ -932,11 +938,11 @@
         xDown = null;
         yDown = null;                                             
       };
-    } else {*/
+    } else {
       window.onscroll = function() {
         onscroll()
       };
-    //}
+    }
 
     function onWindowResize() {
       camera.aspect = window.innerWidth / window.innerHeight;
