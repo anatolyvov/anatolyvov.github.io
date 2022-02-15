@@ -168,8 +168,8 @@
       transparent: false
     })
 
-    let customMaterialGreen = customMaterial.clone();
-    customMaterialGreen.uniforms.glowColor.value.set(new THREE.Color('#00ff00'));
+    let customMaterialWhite = customMaterial.clone();
+    customMaterialWhite.uniforms.glowColor.value.set(new THREE.Color('#ffffff'));
 
     let fixY = -12.5;
     loadModel(modelurl).then((model) => {
@@ -441,7 +441,7 @@
 
       // move camera to the target
       const point = sphere(modelDots.children[2]).center.normalize();
-      const camDistance = cloneCamera.position.length() * 0.4;
+      const camDistance = cloneCamera.position.length() * 0.38;
       cloneCamera.position.copy(point).normalize().multiplyScalar(camDistance);
 
       // save the camera position
@@ -467,7 +467,7 @@
             camera.lookAt(point);
           })
           .onComplete(function() {
-            modelDots.children[2].material = customMaterialGreen;
+            modelDots.children[2].material = customMaterialWhite;
           }).start();
         }).start();
       }).start();
@@ -529,7 +529,7 @@
       const start = new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
 
       const point = sphere(modelDots.children[1]).center.normalize();
-      const camDistance = cloneCamera.position.length() * 0.3;
+      const camDistance = cloneCamera.position.length() * 0.28;
       cloneCamera.position.copy(point).normalize().multiplyScalar(camDistance);
 
       const end = new THREE.Vector3(cloneCamera.position.x, cloneCamera.position.y, cloneCamera.position.z);
@@ -565,9 +565,9 @@
             camera.lookAt(point);
           })
           .onComplete(function() {
-            modelDots.children[1].material = customMaterialGreen;
+            modelDots.children[1].material = customMaterialWhite;
           }).start()
-          modelDots.children[1].material = customMaterialGreen;
+          modelDots.children[1].material = customMaterialWhite;
         }).start();
       }).start();
   
@@ -623,7 +623,7 @@
       const start = new THREE.Vector3(camera.position.x, camera.position.y, camera.position.z);
 
       const point = sphere(modelDots.children[0]).center.normalize();
-      const camDistance = cloneCamera.position.length() * 0.4;
+      const camDistance = cloneCamera.position.length() * 0.38;
       cloneCamera.position.copy(point).normalize().multiplyScalar(camDistance);
 
       const end = new THREE.Vector3(cloneCamera.position.x, cloneCamera.position.y, cloneCamera.position.z);
@@ -647,7 +647,7 @@
             camera.lookAt(point);
           })
           .onComplete(function() {
-            modelDots.children[0].material = customMaterialGreen;
+            modelDots.children[0].material = customMaterialWhite;
           }).start()
         }).start();
       }).start();
