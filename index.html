@@ -78,10 +78,10 @@
       });
     }
 
-    const isMobile = (/iphone|ipod|android|ie|blackberry|fennec/).test (navigator.userAgent.toLowerCase());
+    /*const isMobile = (/iphone|ipod|android|ie|blackberry|fennec/).test(navigator.userAgent.toLowerCase());
     if(isMobile){
       document.getElementById('scroll').style.display = 'none';
-    }
+    }*/
 
     let shield1StartPosition = null;
     let shield2StartPosition = null;
@@ -272,27 +272,6 @@
       shield3.position.x = 0;
       shield3.position.y = 0;
       shield3.position.z = 39;
-
-      /*const geometry = new THREE.PlaneGeometry( 2.2,2.5 );
-      const material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide, transparent: true, opacity: 0} );
-      plane1 = new THREE.Mesh( geometry, material );
-      plane1.name = 'shield1';
-      plane1.position.copy(shield1.position)
-      shield1Pivot.add( plane1 );
-
-      plane2 = plane1.clone();
-      plane2.name = 'shield2';
-      plane2.position.copy(shield2.position)
-      shield2Pivot.add( plane2 );
-
-      plane3 = plane1.clone();
-      plane3.name = 'shield3';
-      plane3.position.copy(shield3.position)
-      shield3Pivot.add( plane3 );
-
-      sceneMeshes.push(plane1);
-      sceneMeshes.push(plane2);
-      sceneMeshes.push(plane3);*/
     }
 
     shield1StartPosition = {
@@ -728,7 +707,7 @@
     }
 
     const step1Mobile = () => {
-      clearTasks();
+      /*clearTasks();
 
       let cameraFrom = {
         x: camera.position.x,
@@ -740,7 +719,9 @@
       .easing(TWEEN.Easing.Cubic.Out)        
       .onUpdate(function () {
         camera.position.set(cameraFrom.x, cameraFrom.y, cameraFrom.z);
-      }).start();
+      }).start();*/
+
+
     }
 
     const step2Mobile = () => {
