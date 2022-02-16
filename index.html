@@ -185,6 +185,10 @@
           node.material = material;
         }
       });
+      model.children[4].material = customMaterialWhite;
+      model.children[5].material = customMaterialWhite;
+      model.children[4].visible = false;
+      model.children[5].visible = false;
       modelDots = model;
     });
 
@@ -346,7 +350,8 @@
 
     const step2 = () => {
       rotationPivot = true;
-      modelDots.children[2].material = material;
+      modelDots.children[2].visible = true;
+      modelDots.children[4].visible = false;
       
       clearTasks();
       cameraSetup({x: 0, y: 0, z: 0}, 1450);
@@ -412,7 +417,8 @@
             camera.lookAt(point);
           })
           .onComplete(function() {
-            modelDots.children[2].material = customMaterialWhite;
+            modelDots.children[2].visible = false;
+            modelDots.children[4].visible = true;
           }).start();
         }).start();
       }).start();
@@ -427,11 +433,12 @@
 
     const step4 = () => {
       rotationPivot = true;
-      modelDots.children[1].material = material;
-      modelDots.children[2].material = material;
+      modelDots.children[2].visible = true;
+      modelDots.children[4].visible = false;
+      modelDots.children[1].material = customMaterial;
 
       clearTasks();
-      cameraSetup({x: 0, y: 0, z: 0}, 1450)
+      cameraSetup({x: 0, y: 0, z: 0}, 1450);
 
       lockShiled2 = false;
       lockLookShieled = false;
@@ -512,7 +519,6 @@
           .onComplete(function() {
             modelDots.children[1].material = customMaterialWhite;
           }).start()
-          modelDots.children[1].material = customMaterialWhite;
         }).start();
       }).start();
   
@@ -528,8 +534,10 @@
 
     const step6 = () => {
       rotationPivot = true;
-      modelDots.children[1].material = material;
-      modelDots.children[0].material = material;
+      modelDots.children[1].material = customMaterial;
+
+      modelDots.children[0].visible = true;
+      modelDots.children[5].visible = false;
 
       clearTasks();
       cameraSetup({x: 0, y: 0, z: 0}, 1450);
@@ -592,7 +600,8 @@
             camera.lookAt(point);
           })
           .onComplete(function() {
-            modelDots.children[0].material = customMaterialWhite;
+            modelDots.children[0].visible = false;
+            modelDots.children[5].visible = true;
           }).start()
         }).start();
       }).start();
@@ -607,7 +616,8 @@
 
     const step8 = () => {
       rotationPivot = true;
-      modelDots.children[0].material = material;
+      modelDots.children[0].visible = true;
+      modelDots.children[5].visible = false;
 
       clearTasks();
       cameraSetup({x: -0.2, y: 0, z: 0}, 1050);
@@ -804,7 +814,6 @@
       renderer.setSize( window.innerWidth, window.innerHeight );
     }
 
-    screen.orientation.addEventListener("change", onWindowResize);
     window.addEventListener('resize', onWindowResize);
   </script>
 </body>
