@@ -178,7 +178,6 @@
     });
 
     loadModel(modelurl2).then((model) => {
-      console.log(model);
       pivot.add(model);
       model.position.y = fixY; 
       model.traverse((node) => {
